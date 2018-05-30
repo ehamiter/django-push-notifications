@@ -19,11 +19,6 @@ class UUIDIntegerField(UUIDField):
 	"""
 
 	def to_internal_value(self, data):
-		try:
-			# maintain some semblence of backwards compatibility
-			data = int(data, 16) if type(data) != int else data
-		except ValueError:
-			raise ValidationError("Device ID is not a valid hex number")
 		return super(UUIDIntegerField, self).to_internal_value(data)
 
 	def to_representation(self, value):
