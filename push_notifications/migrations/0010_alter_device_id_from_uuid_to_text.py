@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('push_notifications', '0009_gcmdevice_rename_device_uuid.py'),
+        ('push_notifications', '0009_gcmdevice_rename_device_uuid'),
     ]
 
     operations = [
