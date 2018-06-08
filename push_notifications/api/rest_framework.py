@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 from rest_framework import permissions, status
-from rest_framework.fields import UUIDField
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer, Serializer, ValidationError
 from rest_framework.viewsets import ModelViewSet
@@ -9,20 +8,6 @@ from rest_framework.viewsets import ModelViewSet
 from ..fields import hex_re
 from ..models import APNSDevice, GCMDevice, WebPushDevice, WNSDevice
 from ..settings import PUSH_NOTIFICATIONS_SETTINGS as SETTINGS
-
-
-# Fields
-class UUIDIntegerField(UUIDField):
-	"""
-	Store an integer represented as a UUID for backwards compatibility. Also
-	allows device_ids to be express as UUIDs.
-	"""
-
-	def to_internal_value(self, data):
-		return super(UUIDIntegerField, self).to_internal_value(data)
-
-	def to_representation(self, value):
-		return value
 
 
 # Serializers
@@ -85,12 +70,6 @@ class UniqueRegistrationSerializerMixin(Serializer):
 
 
 class GCMDeviceSerializer(UniqueRegistrationSerializerMixin, ModelSerializer):
-	device_id = UUIDIntegerField(
-		help_text="ANDROID_ID / TelephonyManager.getDeviceId() (e.g: 0x01)",
-		required=False,
-		allow_null=True
-	)
-
 	class Meta(DeviceSerializerMixin.Meta):
 		model = GCMDevice
 		fields = (
