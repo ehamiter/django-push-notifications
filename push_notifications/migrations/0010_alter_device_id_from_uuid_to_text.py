@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='gcmdevice',
             name='device_id',
-            field=models.TextField(blank=True, db_index=True, default='', help_text='ANDROID_ID / TelephonyManager.getDeviceId()', null=True, verbose_name='Device ID'),
+            field=models.TextField(blank=True, default='', help_text='ANDROID_ID / TelephonyManager.getDeviceId()', null=True, verbose_name='Device ID'),
         ),
     ]
