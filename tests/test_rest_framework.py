@@ -5,10 +5,6 @@ from push_notifications.api.rest_framework import (
 )
 
 
-GCM_DRF_INVALID_HEX_ERROR = {"device_id": [u"Device ID is not a valid hex number"]}
-GCM_DRF_OUT_OF_RANGE_ERROR = {"device_id": [u"Device ID is out of range"]}
-
-
 class APNSDeviceSerializerTestCase(TestCase):
 	def test_validation(self):
 		# valid data - 32 bytes upper case
@@ -98,25 +94,3 @@ class GCMDeviceSerializerTestCase(TestCase):
 
 		with self.assertRaises(ValidationError):
 			serializer.is_valid(raise_exception=True)
-
-	def test_device_id_validation_fail_bad_hex(self):
-		serializer = GCMDeviceSerializer(data={
-			"registration_id": "foobar",
-			"name": "Galaxy Note 3",
-			"device_id": "0x10r",
-			"application_id": "XXXXXXXXXXXXXXXXXXXX",
-		})
-		self.assertFalse(serializer.is_valid())
-		self.assertEqual(serializer.errors, GCM_DRF_INVALID_HEX_ERROR)
-
-	def test_device_id_validation_value_between_signed_unsigned_64b_int_maximums(self):
-		"""
-		2**63 < 0xe87a4e72d634997c < 2**64
-		"""
-		serializer = GCMDeviceSerializer(data={
-			"registration_id": "foobar",
-			"name": "Nexus 5",
-			"device_id": "e87a4e72d634997c",
-			"application_id": "XXXXXXXXXXXXXXXXXXXX",
-		})
-		self.assertTrue(serializer.is_valid())
